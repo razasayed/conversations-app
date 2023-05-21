@@ -1,3 +1,5 @@
 sender_username,receiver_username,message,channel
-@bogoman,@helloworld, how are you doing?,instagram
+@bogoman,@helloworld,how are you doing?,instagram
+@helloworld,@bogoman,im doing fine,instagram
 @ashdev,@meowcat,do you ship internationally?,facebook
+@meowcat,@ashdev,yes we do,facebook
