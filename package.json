@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test jest --verbose ./tests"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,10 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "aws-sdk-mock": "^5.8.0",
+    "jest": "^29.5.0",
+    "mock-fs": "^5.2.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
   }
 }
