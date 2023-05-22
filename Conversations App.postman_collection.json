@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "5ce27bfc-9cde-4095-be50-57af23f36b72",
+		"name": "Conversations App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/upload-csv",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/raza/devspace/conversations-app/data.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/upload-csv",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"upload-csv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/healthcheck",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/conversation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/conversation",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"conversation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/conversation/36a1bb079250343a777026420d80f8ff3442999667cb4125c37d5e7662a7d3fd/chat",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/conversation/36a1bb079250343a777026420d80f8ff3442999667cb4125c37d5e7662a7d3fd/chat",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"conversation",
+						"36a1bb079250343a777026420d80f8ff3442999667cb4125c37d5e7662a7d3fd",
+						"chat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/conversation?startKey={\"messageId\":\"6baf041de7af4378fc45f2b8b7e268421ae68045eff6869fb07c44cc1dec99fa\",\"conversationId\":\"01ef80a190352bc84055aa7d06f64c177ed497903b2ffb7eaace269727253929\"}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/conversation?startKey={\"messageId\":\"6baf041de7af4378fc45f2b8b7e268421ae68045eff6869fb07c44cc1dec99fa\",\"conversationId\":\"01ef80a190352bc84055aa7d06f64c177ed497903b2ffb7eaace269727253929\"}",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"conversation"
+					],
+					"query": [
+						{
+							"key": "startKey",
+							"value": "{\"messageId\":\"6baf041de7af4378fc45f2b8b7e268421ae68045eff6869fb07c44cc1dec99fa\",\"conversationId\":\"01ef80a190352bc84055aa7d06f64c177ed497903b2ffb7eaace269727253929\"}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
