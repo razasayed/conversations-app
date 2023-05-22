@@ -49,7 +49,7 @@ app.post('/upload-csv', upload.single('file'), (req, res, next) => {
           }
   
           if (!allowedChannels.includes(record.channel)) {
-            res.status(400).send('Invalid channel in CSV record');
+            res.status(400).send(`Invalid channel in CSV record: ${record.channel}`);
             return;
           }
         }

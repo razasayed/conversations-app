@@ -16,6 +16,21 @@ function generateConversationId(sender, receiver, channel) {
   return hash;
 }
 
+async function getEntityResponsesFromDynamoDB() {
+  const params = {
+    TableName: 'EntityResponses'
+  };
+
+  try {
+    const response = await dynamodb.scan(params).promise();
+    const entities = response.Items;
+    return entities;
+  } catch (error) {
+    console.error('Error fetching entities from DynamoDB:', error);
+    throw error;
+  }
+}
+
 // Read the CSV file from S3 and write the data to Conversations table in DynamoDB.
 exports.handler = async (event) => {
   const bucketName = event.Records[0].s3.bucket.name;
@@ -23,6 +38,9 @@ exports.handler = async (event) => {
 
   // Read the CSV file from S3.
   const s3Stream = new AWS.S3().getObject({ Bucket: bucketName, Key: key }).createReadStream();
+
+  // Get the entities and responses from DynamoDB.
+  const entityResponses = await getEntityResponsesFromDynamoDB();
 
   return new Promise((resolve, reject) => {
     const conversations = [];
@@ -37,6 +55,26 @@ exports.handler = async (event) => {
         // Generate a unique message ID using current timestamp and a random number.
         const messageId = crypto.createHash('sha256').update(new Date().toISOString() + Math.random().toString()).digest('hex');
 
+        // Remove special characters from the message
+        const sanitizedMessage = message.replace(/[^\w\s]/gi, '').toLowerCase();
+
+        // Determine response based on entities in message. 
+        // A message can contain multiple matching entities. e.g. "how are you. can i know my order status please ?"
+        // which has two entities "how are you" and "order status".
+
+        let responseMessage = '';
+        for (let entityResponse of entityResponses) {
+          if (sanitizedMessage.includes(entityResponse.entityId.toLowerCase())) {
+            if (responseMessage !== '') {
+              responseMessage += ' ';
+            }
+            let channelResponse = entityResponse[`${channel}Response`];
+            channelResponse = channelResponse.replace('{{sender_username}}', sender_username);
+            channelResponse = channelResponse.replace('{{receiver_username}}', receiver_username);
+            responseMessage += channelResponse;
+          }
+        }
+
         conversations.push({
           PutRequest: {
             Item: {
@@ -46,7 +84,8 @@ exports.handler = async (event) => {
               senderUsername: sender_username,
               receiverUsername: receiver_username,
               channel,
-              sourceMessage: message
+              sourceMessage: message,
+              responseMessage
             }
           }
         });
