@@ -3,6 +3,7 @@ const AWS = require('aws-sdk');
 const multer = require('multer');
 const csv = require('csv-parser');
 const fs = require('fs');
+const { requiredNumberOfRecords } = require('./config');
 require('dotenv').config();
 
 // Initialize the Amazon S3 interface.
@@ -24,9 +25,6 @@ const upload = multer({ dest: 'temp/' });
 // Allowed channels.
 const allowedChannels = ['instagram', 'facebook', 'whatsapp', 'email'];
 
-// Required number of records in CSV file. TODO: Change this to 1000.
-const requiredNumberOfRecords = 2;
-
 // Endpoint to upload CSV file to S3 bucket.
 app.post('/upload-csv', upload.single('file'), (req, res, next) => {
     let results = [];
@@ -35,8 +33,8 @@ app.post('/upload-csv', upload.single('file'), (req, res, next) => {
       .on('data', (data) => results.push(data))
       .on('end', () => {
         // Checking if number of records is as per requirement. TODO: Change to results.length !== requiredNumberOfRecords.
-        if (results.length < requiredNumberOfRecords) {
-          res.status(400).send(`CSV file should contain exactly ${requiredNumberOfRecords} records`);
+        if (results.length != requiredNumberOfRecords) {
+          res.status(400).json({error: `CSV file should contain exactly ${requiredNumberOfRecords} records`});
           return;
         }
   
@@ -44,12 +42,12 @@ app.post('/upload-csv', upload.single('file'), (req, res, next) => {
         for (let i = 0; i < results.length; i++) {
           let record = results[i];
           if (!('sender_username' in record && 'receiver_username' in record && 'message' in record && 'channel' in record)) {
-            res.status(400).send(`Invalid CSV format: ${JSON.stringify(record)}`);
+            res.status(400).json({error: `Invalid CSV format: ${JSON.stringify(record)}`});
             return;
           }
   
           if (!allowedChannels.includes(record.channel)) {
-            res.status(400).send(`Invalid channel in CSV record: ${record.channel}`);
+            res.status(400).json({error: `Invalid channel in CSV record: ${record.channel}`});
             return;
           }
         }
@@ -68,7 +66,7 @@ app.post('/upload-csv', upload.single('file'), (req, res, next) => {
             throw err;
           }
   
-          res.send(`File uploaded successfully to S3 bucket ${process.env.AWS_BUCKET_NAME}`);
+          res.json({message: `File uploaded successfully to S3 bucket ${process.env.AWS_BUCKET_NAME}`});          
         });
       });
 });
@@ -146,6 +144,11 @@ app.get('/healthcheck', (req, res) => {
     res.send('Server is running and healthy');
 });
 
-app.listen(3000, () => {
-  console.log('Server is listening on port 3000');
-});
+module.exports = app;
+
+// Check if the environment is not 'test' before starting the server
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(3000, () => {
+      console.log('Server is listening on port 3000');
+    });
+}
