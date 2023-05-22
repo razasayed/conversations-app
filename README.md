@@ -24,7 +24,8 @@ The Conversations App is a set of RESTful API's that allows users to manage and 
 
 - Docker
 - Docker Compose
-- Amazon Web Services (AWS) account (Im using my AWS Free Tier credentials for this app)
+- Amazon Web Services (AWS) account. Im using my AWS Free Tier credentials for this app. Since this is a technical challenge project i
+have created a temporary AWS access key and secret access key which i have stored in a `.env` file in the project root as it will be required for running the application locally.
 
 ## Application Architecture
 
@@ -59,6 +60,10 @@ docker-compose stop
 ```
 docker-compose up test
 ```
+
+Below is the screenshot of successful passing of all the unit tests.
+
+![Unit Tests](tests.png)
 
 ## Testing the API endpoints
 
@@ -236,8 +241,7 @@ Success:
 
 ## Video Recording of using the app:
 
-I have created a video recording of me running the application using Awesome Screenshot which can be viewed at [https://www.awesomescreenshot.com/video/17637425?key=3e5e11fce74a413a22fb323e2e08668a](https://www.awesomescreenshot.com/video/17637425?key=3e5e11fce74a413a22fb323e2e08668a)
-
+I have created a video recording of me running the application using Awesome Screenshot which can be viewed at [https://www.awesomescreenshot.com/video/17637539?key=19d680cb6119f317a5863e327ccc113b](https://www.awesomescreenshot.com/video/17637539?key=19d680cb6119f317a5863e327ccc113b)
 
 
 
