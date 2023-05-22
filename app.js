@@ -32,7 +32,7 @@ app.post('/upload-csv', upload.single('file'), (req, res, next) => {
       .pipe(csv())
       .on('data', (data) => results.push(data))
       .on('end', () => {
-        // Checking if number of records is as per requirement. TODO: Change to results.length !== requiredNumberOfRecords.
+        // Checking if number of records is as per requirement.
         if (results.length != requiredNumberOfRecords) {
           res.status(400).json({error: `CSV file should contain exactly ${requiredNumberOfRecords} records`});
           return;
@@ -119,7 +119,7 @@ app.get('/conversation/:id/chat', async (req, res) => {
 
         // Check if conversationId exists
         if (queryResults.Count === 0) {
-            res.status(404).send("Conversation not found");
+            res.status(404).json({error: "Conversation not found"});
             return;
         }
 
@@ -134,7 +134,7 @@ app.get('/conversation/:id/chat', async (req, res) => {
         }
     } catch(err) {
         // Handle other possible DynamoDB errors
-        res.status(500).send(err.message);
+        res.status(500).json({error: err.message});
     }
 });
 
