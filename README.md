@@ -24,8 +24,8 @@ The Conversations App is a set of RESTful API's that allows users to manage and 
 
 - Docker
 - Docker Compose
-- Amazon Web Services (AWS) account. Im using my AWS Free Tier credentials for this app. Since this is a technical challenge project i
-have created a temporary AWS access key and secret access key which i have stored in a `.env` file in the project root as it will be required for running the application locally.
+- Amazon Web Services (AWS) account. Im using my AWS Free Tier credentials for this app. I
+have created a temporary AWS access key and secret access key (deleted now) which i have stored in a `.env` file in the project root as it will be required for running the application locally.
 
 ## Application Architecture
 
